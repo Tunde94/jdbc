@@ -1,5 +1,7 @@
 import com.mysql.cj.jdbc.ConnectionGroup;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import dao.AnimalDao;
+import dao.AnimalDaoImpl;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -27,7 +29,20 @@ public class Main {
             Connection connection = dataSource.getConnection();
             LOGGER.log(Level.INFO, "The connection was successful");
 
+            AnimalDao animalDao = new AnimalDaoImpl(connection);
+
             Statement statement = connection.createStatement();
+
+            animalDao.createTable();
+            statement.execute("create table if not exists food(" +
+                    "id integer auto_increment, "+
+                    "name varchar(50), " +
+                    "description varchar(100), " +
+                    "calories_per_100 integer," +
+                    "expiration_date date, " +
+                    "primary key (id) )");
+            LOGGER.info("Create food table was successful");
+
             //statement -> used for transferring commands to database
             statement.execute("create table if not exists animals (id integer auto_increment, name varchar (30), species varchar(50), primary key(id))");
             LOGGER.info("Create animal table was successful");
@@ -39,14 +54,7 @@ public class Main {
             statement.execute("Update Animals Set name = \"Lulu\" where id = 1 ");
             LOGGER.info("Data updating in animals table was successful");
 
-            statement.execute("create table if not exists food(" +
-                    "id integer auto_increment, "+
-                    "name varchar(50), " +
-                    "description varchar(100), " +
-                    "calories_per_100 integer," +
-                    "expiration_date date, " +
-                    "primary key (id) )");
-            LOGGER.info("Create food table was successful");
+
 
             PreparedStatement preparedStatement = connection.prepareStatement(
                     "insert into food ( name, description, calories_per_100, expiration_date) values(?,?,?,?)");
@@ -91,8 +99,10 @@ public class Main {
             //2. pizza -  hawaii pizza - 750 kcal per 100 expira 2024-10-12
 
 
-           statement.execute("drop table animals");
+           //statement.execute("drop table animals");
+            animalDao.dropTable();
             LOGGER.info("Table animals dropped successful");
+
             statement.execute("drop table food");
             LOGGER.info("Table food dropped successful");
 

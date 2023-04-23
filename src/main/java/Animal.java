@@ -1,5 +1,5 @@
 public class Animal {
-    private Integer id; // nu folosim int pentru a evita nullPointerException
+    private Integer id; // nu folosim int pentru a evita NullPointerException
     private String name;
     private String species;
     public Animal(){
