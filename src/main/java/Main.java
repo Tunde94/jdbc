@@ -2,6 +2,8 @@ import com.mysql.cj.jdbc.ConnectionGroup;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import dao.AnimalDao;
 import dao.AnimalDaoImpl;
+import dao.FoodDao;
+import dao.FoodDaoImpl;
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -30,25 +32,28 @@ public class Main {
             LOGGER.log(Level.INFO, "The connection was successful");
 
             AnimalDao animalDao = new AnimalDaoImpl(connection);
+            FoodDao foodDao = new FoodDaoImpl(connection);
 
             Statement statement = connection.createStatement();
 
             animalDao.createTable();
-            statement.execute("create table if not exists food(" +
-                    "id integer auto_increment, "+
-                    "name varchar(50), " +
-                    "description varchar(100), " +
-                    "calories_per_100 integer," +
-                    "expiration_date date, " +
-                    "primary key (id) )");
+            foodDao.createTable();
+//            statement.execute("create table if not exists food(" +
+//                    "id integer auto_increment, "+
+//                    "name varchar(50), " +
+//                    "description varchar(100), " +
+//                    "calories_per_100 integer," +
+//                    "expiration_date date, " +
+//                    "primary key (id) )");
             LOGGER.info("Create food table was successful");
 
             //statement -> used for transferring commands to database
             statement.execute("create table if not exists animals (id integer auto_increment, name varchar (30), species varchar(50), primary key(id))");
             LOGGER.info("Create animal table was successful");
 
-            statement.execute("Insert into animals (name, species) values (\"Lucky\", \"Dog\")");
-            statement.execute("Insert into animals (name, species) values (\"Rex\", \"Dog\")");
+            animalDao.addData();
+            //statement.execute("Insert into animals (name, species) values (\"Lucky\", \"Dog\")");
+            //statement.execute("Insert into animals (name, species) values (\"Rex\", \"Dog\")");
             LOGGER.info("Data insertion in animals table was successful");
 
             statement.execute("Update Animals Set name = \"Lulu\" where id = 1 ");
@@ -103,7 +108,8 @@ public class Main {
             animalDao.dropTable();
             LOGGER.info("Table animals dropped successful");
 
-            statement.execute("drop table food");
+            //statement.execute("drop table food");
+            foodDao.dropTable();
             LOGGER.info("Table food dropped successful");
 
 
