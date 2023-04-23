@@ -1,3 +1,5 @@
+package org.example.model;
+
 public class Animal {
     private Integer id; // nu folosim int pentru a evita NullPointerException
     private String name;

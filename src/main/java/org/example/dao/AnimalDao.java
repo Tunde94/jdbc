@@ -1,8 +1,10 @@
-package dao;
+package org.example.dao;
+
+import org.example.model.Animal;
 
 import java.sql.SQLException;
 
-//Animal Data Access Object : clasa pentru a accesa date din "animals"
+//org.example.dao.model.Animal Data Access Object : clasa pentru a accesa date din "animals"
 //manipilare structura baza de date(creare si stergere tabel)
 //manipulare date - CRUD
 public interface AnimalDao {
@@ -11,7 +13,7 @@ public interface AnimalDao {
     void createTable() throws SQLException;
 
     //adaugare date     CREATE animals
-    void addData() throws SQLException;
+    void create(Animal animal) throws SQLException;
 
     //gasire date       READ animals
     void findData() throws SQLException;

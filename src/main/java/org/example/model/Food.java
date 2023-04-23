@@ -1,3 +1,5 @@
+package org.example.model;
+
 import java.sql.Date; // java.util.Date nu functioneaza la fel
 
 public class Food {

@@ -1,9 +1,12 @@
-import com.mysql.cj.jdbc.ConnectionGroup;
+package org.example;
+
 import com.mysql.cj.jdbc.MysqlDataSource;
-import dao.AnimalDao;
-import dao.AnimalDaoImpl;
-import dao.FoodDao;
-import dao.FoodDaoImpl;
+import org.example.dao.AnimalDao;
+import org.example.dao.AnimalDaoImpl;
+import org.example.dao.FoodDao;
+import org.example.dao.FoodDaoImpl;
+import org.example.model.Animal;
+
 
 import java.sql.*;
 import java.util.logging.Level;
@@ -51,7 +54,9 @@ public class Main {
             statement.execute("create table if not exists animals (id integer auto_increment, name varchar (30), species varchar(50), primary key(id))");
             LOGGER.info("Create animal table was successful");
 
-            animalDao.addData();
+            animalDao.create(new Animal(null,"Lucky","dog"));
+            animalDao.create(new Animal(null,"Rex","dog"));
+            animalDao.create(new Animal(null,"Lulu","cat"));
             //statement.execute("Insert into animals (name, species) values (\"Lucky\", \"Dog\")");
             //statement.execute("Insert into animals (name, species) values (\"Rex\", \"Dog\")");
             LOGGER.info("Data insertion in animals table was successful");

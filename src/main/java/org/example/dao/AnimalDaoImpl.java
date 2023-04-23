@@ -1,12 +1,18 @@
-package dao;
+package org.example.dao;
 
-import javax.swing.plaf.nimbus.State;
+
+import org.example.model.Animal;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
+
 public class AnimalDaoImpl implements AnimalDao{
     private final Connection connection;
+
     public AnimalDaoImpl(Connection connection){
         this.connection = connection;
     }
@@ -25,14 +31,16 @@ public class AnimalDaoImpl implements AnimalDao{
         statement.execute("drop table animals");
     }
 
-    public void addData() throws SQLException{
-        Statement statement = connection.createStatement();
-        statement.execute("Insert into animals (name, species) values (\"Lucky\", \"Dog\")");
-
-
+    public void create(Animal animal) throws SQLException{
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "Insert into animals(name, species) values (?,?)"
+        );
+        preparedStatement.setString(1,animal.getName());
+        preparedStatement.setString(2,animal.getSpecies());
+        preparedStatement.execute();
     }
 
-    public Ani findData() throws SQLException{
+    public void findData() throws SQLException{
 
     }
 

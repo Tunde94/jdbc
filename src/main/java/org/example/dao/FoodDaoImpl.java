@@ -1,6 +1,5 @@
-package dao;
+package org.example.dao;
 
-import javax.tools.ForwardingFileObject;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
