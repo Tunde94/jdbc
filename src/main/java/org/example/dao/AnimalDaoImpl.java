@@ -3,11 +3,9 @@ package org.example.dao;
 
 import org.example.model.Animal;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AnimalDaoImpl implements AnimalDao{
@@ -40,17 +38,39 @@ public class AnimalDaoImpl implements AnimalDao{
         preparedStatement.execute();
     }
 
-    public void findData() throws SQLException{
+    @Override
+    public List<Animal> read() throws SQLException{
+        Statement statement = connection.createStatement();
+        ResultSet rs = statement.executeQuery("select * from animals");
+
+        List<Animal> animals = new ArrayList<>();
+        while(rs.next() == true) {
+            Animal animal = new Animal();
+            animal.setId(rs.getInt(1));
+            animal.setName(rs.getString(2));
+            animal.setSpecies((rs.getString(3)));
+            animals.add(animal);
+        }
+        return animals;
+    }
+
+    public void update(Animal updatedAnimal) throws SQLException{
+        PreparedStatement preparedStatement =  connection.prepareStatement("Update animals Set name = ?, species =? where id = ?");
+        preparedStatement.setString(1, updatedAnimal.getName());
+        preparedStatement.setString(2, updatedAnimal.getSpecies());
+        preparedStatement.setInt(3,updatedAnimal.getId());
+        preparedStatement.executeUpdate();
 
     }
 
-    public void update() throws SQLException{
-
+    public void delete(Integer animalId) throws SQLException{
+        PreparedStatement preparedStatement = connection.prepareStatement
+        ("delete from animals where id = ?");
+        preparedStatement.setInt(1,animalId);
+        preparedStatement.execute();
     }
 
-    public void deleteData() throws SQLException{
 
-    }
 
 
 }

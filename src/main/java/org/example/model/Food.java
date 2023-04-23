@@ -4,12 +4,12 @@ import java.sql.Date; // java.util.Date nu functioneaza la fel
 
 public class Food {
     private Integer id;
-    private  String name;
+    private String name;
     private String description;
     private Integer calories_per_100;
     private Date expiration_date;
 
-    public Food(){
+    public Food() {
 
     }
 
@@ -59,5 +59,16 @@ public class Food {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", calories_per_100=" + calories_per_100 +
+                ", expiration_date=" + expiration_date +
+                '}';
     }
 }
